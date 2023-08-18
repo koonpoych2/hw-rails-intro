@@ -8,11 +8,31 @@ class MoviesController < ApplicationController
   
     def index
       @movies = Movie.all
+      # filter title
+      @movies = @movies.where('title LIKE ?', "#{params[:title]}%") if params[:title].present?
+      # filter relase_year
+      @movies = @movies.where('strftime("%Y", release_date) = ?', params[:release_year]) if params[:release_year].present?
+      # filter rating
+      @movies = @movies.where(rating: params[:rating]) if params[:rating].present?
+
+      # sorting
+      if params[:sort] == 'title'
+        @movies = @movies.order(title: :asc)
+      elsif params[:sort] == 'rating'
+        @movies = @movies.order(rating: :desc)
+      elsif params[:sort] == 'release_date'
+        @movies = @movies.order(release_date: :desc)
+      end
+      
     end
   
     def new
       # default: render 'new' template
     end
+
+    # def sort
+
+    # end
   
     def create
       @movie = Movie.create!(movie_params)

@@ -1,14 +1,30 @@
 <!--  This file is app/views/movies/index.html.erb -->
 <h2>All Movies</h2>
 
+<%= form_tag movies_path, method: :get, class: 'form-inline' do %>
+  <div class="form-group">
+    <%= label_tag :title, "Title contains:" %>
+    <%= text_field_tag :title, params[:title], class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :release_year, "Rating:" %>
+    <%= text_field_tag :rating, params[:rating], class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :release_year, "Release Year:" %>
+    <%= text_field_tag :release_year, params[:release_year], class: 'form-control' %>
+  </div>
+  <%= submit_tag "Apply Filter", class: 'btn btn-secondary' %>
+<% end %>
+
 <%#  Part 2: Start here... %>
 
 <table class="table table-striped col-md-12" id="movies">
   <thead>
     <tr>
-      <th>Movie Title</th>
-      <th>Rating</th>
-      <th>Release Date</th>
+      <th><%= link_to "Movie Title", movies_path(sort: 'title') %></th>
+      <th><%= link_to "Rating", movies_path(sort: 'rating') %></th>
+      <th><%= link_to "Release Date", movies_path(sort: 'release_date') %></th>
       <th>More Info</th>
     </tr>
   </thead>
